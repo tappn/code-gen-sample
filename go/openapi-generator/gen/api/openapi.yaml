@@ -1,0 +1,83 @@
+openapi: 3.0.3
+info:
+  description: API documentation example using OpenAPI 3.0
+  title: Sample API
+  version: 1.0.0
+servers:
+- url: https://api.example.com
+paths:
+  /orders/{order_id}:
+    post:
+      description: |
+        This endpoint processes a specific order, identified by `order_id`, with additional details provided in the request body.
+      parameters:
+      - description: "The unique identifier of the order (e.g., 'abc-xxxx')."
+        explode: false
+        in: path
+        name: order_id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_orders__order_id__post_200_response'
+          description: order api response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_orders__order_id__post_400_response'
+          description: bad request response
+      summary: Process an order
+components:
+  responses:
+    OrderResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/_orders__order_id__post_200_response'
+      description: order api response
+    BadRequestError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/_orders__order_id__post_400_response'
+      description: bad request response
+  schemas:
+    OrderRequest:
+      example:
+        project_id: 1
+        return_id: 1
+      properties:
+        project_id:
+          example: 1
+          minimum: 1
+          type: integer
+        return_id:
+          example: 1
+          type: integer
+      type: object
+    _orders__order_id__post_200_response:
+      example:
+        message: Order processed successfully
+      properties:
+        message:
+          example: Order processed successfully
+          type: string
+      type: object
+    _orders__order_id__post_400_response:
+      properties:
+        error:
+          example: Invalid input
+          type: string
+      type: object

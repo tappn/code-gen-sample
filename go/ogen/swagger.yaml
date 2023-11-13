@@ -1,0 +1,65 @@
+openapi: 3.0.3
+info:
+  title: Sample API
+  version: 1.0.0
+  description: API documentation example using OpenAPI 3.0
+servers:
+  - url: 'https://api.example.com'
+paths:
+  /orders/{order_id}:
+    post:
+      summary: Process an order
+      description: >
+        This endpoint processes a specific order, identified by `order_id`,
+        with additional details provided in the request body.
+      parameters:
+        - name: order_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The unique identifier of the order (e.g., 'abc-xxxx').
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - project_id
+              properties:
+                project_id:
+                  type: integer
+                  minimum: 1
+                  example: 1
+                return_id:
+                  type: integer
+                  example: 1
+                status:
+                  type: string
+                  description: pet status in the store
+                  enum:
+                    - available
+                    - pending
+                    - sold
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Order processed successfully
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid input
